@@ -12,7 +12,7 @@ const positionRoutes = require('./routes/position');
 
 dotenv.config({ path: path.resolve(__dirname, 'config', '.env') });
 
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected.'))
   .catch((error) => console.log(error));
 
