@@ -1,30 +1,30 @@
 const Order = require('../models/Order');
 const errorHandler = require('../utils/errorHandler');
 
-module.exports.getAll = async function (req, res) {
-  const query = {
-    user: req.user.id,
-  };
-
-  if (req.query.start) {
-    query.date = {
-      $gte: req.query.start,
+module.exports.getAll = async (req, res) => {
+  try {
+    const query = {
+      user: req.user.id,
     };
-  }
 
-  if (req.query.end) {
-    if (!query.date) {
-      query.date = {};
+    if (req.query.start) {
+      query.date = {
+        $gte: req.query.start,
+      };
     }
 
-    query.date.$lte = req.query.end;
-  }
+    if (req.query.end) {
+      if (!query.date) {
+        query.date = {};
+      }
 
-  if (req.query.order) {
-    query.order = +req.query.order;
-  }
+      query.date.$lte = req.query.end;
+    }
 
-  try {
+    if (req.query.order) {
+      query.order = +req.query.order;
+    }
+
     const orders = await Order
       .find(query)
       .sort({ date: -1 })
@@ -37,7 +37,7 @@ module.exports.getAll = async function (req, res) {
   }
 };
 
-module.exports.create = async function (req, res) {
+module.exports.create = async (req, res) => {
   try {
     const lastOrder = await Order
       .findOne({ user: req.user.id })
