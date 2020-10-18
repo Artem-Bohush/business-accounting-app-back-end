@@ -2,16 +2,16 @@ const moment = require('moment');
 const Order = require('../models/Order');
 const errorHandler = require('../utils/errorHandler');
 
-function calculatePrice(orders = []) {
+const calculatePrice = (orders = []) => {
   return orders.reduce((total, order) => {
     const orderPrice = order.list.reduce((orderTotal, item) => {
       return orderTotal += item.cost * item.quantity;
     }, 0);
     return total += orderPrice;
   }, 0);
-}
+};
 
-function getOrdersMap(orders = []) {
+const getOrdersMap = (orders = []) => {
   const daysOrders = {};
   orders.forEach((order) => {
     const date = moment(order.date).format('DD.MM.YYYY');
@@ -27,9 +27,9 @@ function getOrdersMap(orders = []) {
     daysOrders[date].push(order);
   });
   return daysOrders;
-}
+};
 
-module.exports.overview = async function(req, res) {
+module.exports.overview = async (req, res) => {
   try {
     const allOrders = await Order.find({ user: req.user.id }).sort({ date: 1 });
     const ordersMap = getOrdersMap(allOrders);
@@ -66,11 +66,11 @@ module.exports.overview = async function(req, res) {
   }
 };
 
-module.exports.analytics = async function(req, res) {
+module.exports.analytics = async (req, res) => {
   try {
     const allOrders = await Order.find({ user: req.user.id }).sort({ date: 1 });
     const ordersMap = getOrdersMap(allOrders);
-
+    console.log(allOrders);
     const average = +(calculatePrice(allOrders) / Object.keys(ordersMap).length).toFixed(2);
 
     const chart = Object.keys(ordersMap).map((label) => {
