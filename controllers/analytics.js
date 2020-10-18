@@ -70,7 +70,6 @@ module.exports.analytics = async (req, res) => {
   try {
     const allOrders = await Order.find({ user: req.user.id }).sort({ date: 1 });
     const ordersMap = getOrdersMap(allOrders);
-    console.log(allOrders);
     const average = +(calculatePrice(allOrders) / Object.keys(ordersMap).length).toFixed(2);
 
     const chart = Object.keys(ordersMap).map((label) => {
