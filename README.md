@@ -9,7 +9,7 @@ Database structure see [here](https://whimsical.com/WcGyFRnrVnvUYFmZjQKhLU).
 API documentation see [here](https://documenter.getpostman.com/view/9931314/TVRrW5PL).
 
 You need to set the following environment variables:
-- MONGODB_URI
-- JWT_SECRET
-- DEV_HOST
-- PROD_HOST
+- `MONGODB_URI`
+- `JWT_SECRET`
+- `DEV_HOST`
+- `PROD_HOST`
